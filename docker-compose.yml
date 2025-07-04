@@ -1,0 +1,77 @@
+version: "3.8"
+
+services:
+  mongo:
+    image: mongo:4.4
+    container_name: mongo
+    restart: always
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+    networks:
+      - ecommerce-network
+
+  auth:
+    build: ./services/auth
+    container_name: auth
+    ports:
+      - "4000:4000"
+    volumes:
+      - ./services/auth:/app
+    command: npm run dev # or nodemon index.js
+    env_file: .env
+    depends_on:
+      - mongo
+    networks:
+      - ecommerce-network
+
+  # product:
+  #   build: ./services/product
+  #   container_name: product_service
+  #   ports:
+  #     - "4001:4001"
+  #   env_file: .env
+  #   depends_on:
+  #     - mongo
+  #   networks:
+  #     - ecommerce-network
+
+  gateway:
+    build:
+      context: ./gateway
+      dockerfile: Dockerfile
+    container_name: gateway
+    ports:
+      - "8000:8000" #8001 for nginx
+    depends_on:
+      - auth
+      # - order
+      # - product
+    networks:
+      - ecommerce-network
+
+  # nginx:
+  #   image: nginx:latest
+  #   container_name: nginx_gateway
+  #   ports:
+  #     - "8000:80"
+  #   volumes:
+  #     - ./nginx/nginx.conf:/etc/nginx/conf.d/default.conf:ro
+  #   depends_on:
+  #     - auth
+  #     - order
+  #   networks:
+  #     - ecommerce-network
+
+volumes:
+  mongo_data:
+
+networks:
+  ecommerce-network:
+    driver: bridge
+
+
+# docker compose up --build
+# docker compose up -d
+# docker compose build
