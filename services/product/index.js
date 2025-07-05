@@ -1,24 +1,19 @@
-import express from "express";
-import connectDB from "./config/database.js";
-import config from "./config/config.js";
+// index.js
+// Initializes API routes and starts the server
 
-const app = express();
+import app, { startServer } from "./express.js";
+import productRouter from "./routes/product.route.js";
+import categoryRouter from "./routes/category.route.js";
+import couponRouter from "./routes/coupon.route.js";
+import ratingreviewtRouter from "./routes/ratingreview.route.js";
 
-app.use(config.CORS_CONFIG);
-console.log("> Cors:", config.CORS_ORIGIN);
+app.use("/api/products", productRouter);
 
-app.use(express.json());
+app.use("/api/categories", categoryRouter);
 
-app.get("/", (req, res) => {
-  res.send(`> Welcome to the Scheduling API! Environment: ${config.NODE_ENV}`);
-});
+app.use("/api/coupons", couponRouter);
 
-const startServer = async () => {
-  await connectDB();
-  const PORT = config.PORT;
-  app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
-  });
-};
+app.use("/api/ratings", ratingreviewtRouter);
 
+// Initiate server startup
 startServer();
