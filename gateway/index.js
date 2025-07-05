@@ -15,11 +15,56 @@ app.use(
 );
 
 app.use(
-  "/order",
+  "/product",
   createProxyMiddleware({
-    target: "http://order:5001",
+    target: "http://product:4001",
     changeOrigin: true,
-    pathRewrite: { "^/order": "/api/order" },
+    pathRewrite: { "^/product": "/api/products" },
+  })
+);
+
+app.use(
+  "/categories",
+  createProxyMiddleware({
+    target: "http://categories:4001",
+    changeOrigin: true,
+    pathRewrite: { "^/categories": "/api/categories" },
+  })
+);
+
+app.use(
+  "/coupons",
+  createProxyMiddleware({
+    target: "http://coupons:4001",
+    changeOrigin: true,
+    pathRewrite: { "^/coupons": "/api/coupons" },
+  })
+);
+
+app.use(
+  "/ratings",
+  createProxyMiddleware({
+    target: "http://ratings:4001",
+    changeOrigin: true,
+    pathRewrite: { "^/ratings": "/api/ratings" },
+  })
+);
+
+app.use(
+  "/cart",
+  createProxyMiddleware({
+    target: "http://cart:4002",
+    changeOrigin: true,
+    pathRewrite: { "^/cart": "/api/cart" },
+  })
+);
+
+app.use(
+  "/wishlist",
+  createProxyMiddleware({
+    target: "http://wishlist:4002",
+    changeOrigin: true,
+    pathRewrite: { "^/wishlist": "/api/wishlist" },
   })
 );
 

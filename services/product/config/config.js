@@ -7,7 +7,7 @@ dotenv.config();
 const config = {
   MONGODB_URI: process.env.MONGODB_URI || "mongodb://mongo:27017/ecommerce",
   NODE_ENV: process.env.NODE_ENV || "development", // Provide a default in case it's not set
-  PORT: process.env.PORT || 4000, // Provide a default
+  PORT: process.env.PORT || 4001, // Provide a default
   JWT_SECRET: process.env.JWT_SECRET,
   JWT_EXPIRATION: process.env.JWT_EXPIRATION || "1h", // Provide a default
   CORS_ORIGIN: process.env.CORS_ORIGIN || "*", // Allow all origins for development
