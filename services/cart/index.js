@@ -1,24 +1,13 @@
-import express from "express";
-import connectDB from "./config/database.js";
-import config from "./config/config.js";
+// index.js
+// Initializes API routes and starts the server
 
-const app = express();
+import app, { startServer } from "./express.js";
+import cartRouter from "./routes/cart.route.js";
+import wishlistRouter from "./routes/wishlist.route.js";
 
-app.use(config.CORS_CONFIG);
-console.log("> Cors:", config.CORS_ORIGIN);
+app.use("/api/cart", cartRouter);
 
-app.use(express.json());
+app.use("/api/wishlist", wishlistRouter);
 
-app.get("/", (req, res) => {
-  res.send(`> Welcome to the Scheduling API! Environment: ${config.NODE_ENV}`);
-});
-
-const startServer = async () => {
-  await connectDB();
-  const PORT = config.PORT;
-  app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
-  });
-};
-
+// Initiate server startup
 startServer();

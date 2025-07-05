@@ -1,24 +1,15 @@
-import express from "express";
-import connectDB from "./config/database.js";
-import config from "./config/config.js";
+// index.js
+// Initializes API routes and starts the server
 
-const app = express();
+import app, { startServer } from "./express.js";
+import userAuthRouter from "./routes/userAuth.route.js";
+import userRouter from "./routes/user.route.js";
 
-app.use(config.CORS_CONFIG);
-console.log("> Cors:", config.CORS_ORIGIN);
+// Mount authentication routes
+app.use("/api/auth", userAuthRouter);
 
-app.use(express.json());
+// Mount user management routes
+app.use("/api/users", userRouter);
 
-app.get("/", (req, res) => {
-  res.send(`> Welcome to the Scheduling API! Environment: ${config.NODE_ENV}`);
-});
-
-const startServer = async () => {
-  await connectDB();
-  const PORT = config.PORT;
-  app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
-  });
-};
-
+// Initiate server startup
 startServer();

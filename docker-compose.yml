@@ -26,16 +26,31 @@ services:
     networks:
       - ecommerce-network
 
-  # product:
-  #   build: ./services/product
-  #   container_name: product_service
-  #   ports:
-  #     - "4001:4001"
-  #   env_file: .env
-  #   depends_on:
-  #     - mongo
-  #   networks:
-  #     - ecommerce-network
+  product:
+    build: ./services/product
+    container_name: product
+    ports:
+      - "4001:4001"
+    volumes:
+      - ./services/product:/app
+    env_file: .env
+    depends_on:
+      - mongo
+    networks:
+      - ecommerce-network
+
+  cart:
+    build: ./services/cart
+    container_name: cart
+    ports:
+      - "4002:4002"
+    volumes:
+      - ./services/product:/app
+    env_file: .env
+    depends_on:
+      - mongo
+    networks:
+      - ecommerce-network
 
   gateway:
     build:
